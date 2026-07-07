@@ -1,116 +1,186 @@
-app.get('/', (req, res) => {
-  res.type('html').send(`
-<!doctype html>
+app.get("/", (req, res) => {
+  res.type("html").send(`
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Nova Hub</title>
+<title>Abstract Hub</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: Inter, system-ui, Arial, sans-serif;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top, #334155 0%, transparent 35%),
-    #050505;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body{
+height:100vh;
+overflow:hidden;
+background:#05060A;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
 }
 
-.container {
-  width: 90%;
-  max-width: 900px;
-  padding: 40px;
-  background: rgba(20,20,20,0.75);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(15px);
-  border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+/* Animated Grid */
+body::before{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(rgba(0,255,255,.08) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,255,255,.08) 1px, transparent 1px);
+background-size:40px 40px;
+animation:gridMove 12s linear infinite;
+opacity:.4;
 }
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
+@keyframes gridMove{
+from{transform:translateY(0);}
+to{transform:translateY(40px);}
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: 800;
-  background: linear-gradient(90deg,#60a5fa,#a78bfa);
-  -webkit-background-clip:text;
-  color:transparent;
+/* Glow */
+body::after{
+content:"";
+position:absolute;
+width:700px;
+height:700px;
+background:radial-gradient(circle,#00c8ff33,transparent 70%);
+filter:blur(60px);
+animation:pulse 5s ease-in-out infinite;
 }
 
-nav a {
-  color:#aaa;
-  text-decoration:none;
-  margin-left:20px;
+@keyframes pulse{
+50%{
+transform:scale(1.2);
+opacity:.5;
+}
 }
 
-nav a:hover {
-  color:white;
+.panel{
+position:relative;
+z-index:2;
+width:900px;
+background:rgba(10,12,18,.75);
+backdrop-filter:blur(25px);
+border:1px solid rgba(0,255,255,.15);
+border-radius:24px;
+padding:40px;
+box-shadow:
+0 0 40px rgba(0,255,255,.12),
+0 0 120px rgba(0,150,255,.08);
 }
 
-h1 {
-  font-size:55px;
-  margin:0;
-  line-height:1.1;
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:60px;
 }
 
-p {
-  color:#aaa;
-  font-size:18px;
-  max-width:600px;
+.logo{
+font-size:30px;
+font-weight:800;
+letter-spacing:3px;
+color:#7df9ff;
+text-shadow:0 0 15px #00d9ff;
 }
 
-button {
-  margin-top:25px;
-  padding:14px 30px;
-  border:none;
-  border-radius:14px;
-  background:#6366f1;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-  transition:.2s;
+.links a{
+margin-left:25px;
+text-decoration:none;
+color:#b5c7d6;
+transition:.25s;
 }
 
-button:hover {
-  transform:translateY(-3px);
-  background:#818cf8;
+.links a:hover{
+color:white;
 }
 
-.cards {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
-  margin-top:40px;
+.hero{
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:50px;
+align-items:center;
 }
 
-.card {
-  background:#111;
-  padding:20px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.08);
+h1{
+font-size:58px;
+line-height:1;
+margin-bottom:20px;
 }
 
-.card h3 {
-  margin-top:0;
+h1 span{
+color:#00d9ff;
+text-shadow:0 0 20px #00d9ff;
 }
 
-.status {
-  color:#22c55e;
+p{
+color:#9ba8b4;
+line-height:1.8;
+font-size:18px;
+margin-bottom:35px;
+}
+
+button{
+padding:15px 34px;
+background:#00bfff;
+border:none;
+border-radius:14px;
+font-size:16px;
+cursor:pointer;
+color:white;
+transition:.25s;
+box-shadow:0 0 20px rgba(0,191,255,.4);
+}
+
+button:hover{
+transform:translateY(-4px);
+box-shadow:0 0 35px rgba(0,191,255,.8);
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
+}
+
+.card{
+padding:25px;
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+transition:.25s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+border-color:#00d9ff;
+box-shadow:0 0 25px rgba(0,217,255,.3);
+}
+
+.card h3{
+margin-bottom:8px;
+color:#7df9ff;
+}
+
+.card p{
+font-size:15px;
+margin:0;
+}
+
+.footer{
+margin-top:50px;
+display:flex;
+justify-content:space-between;
+color:#667;
+font-size:14px;
 }
 </style>
 
@@ -118,12 +188,12 @@ button:hover {
 
 <body>
 
-<div class="container">
+<div class="panel">
 
 <nav>
-<div class="logo">⚡ Nova Hub</div>
+<div class="logo">ABSTRACT</div>
 
-<div>
+<div class="links">
 <a href="/">Home</a>
 <a href="/api-data">API</a>
 <a href="/healthz">Status</a>
@@ -131,54 +201,66 @@ button:hover {
 
 </nav>
 
+<div class="hero">
+
+<div>
 
 <h1>
-Build something<br>
-<span style="color:#818cf8">amazing.</span>
+Future.<br>
+<span>Unlocked.</span>
 </h1>
 
 <p>
-A modern TypeScript + Express website running on Vercel.
-Fast, clean and fully customizable.
+A futuristic TypeScript + Express dashboard powered by Vercel.
+Ultra fast. Minimal. Cyber inspired.
 </p>
 
-
-<button onclick="test()">
-Launch Demo
+<button onclick="launch()">
+Launch System
 </button>
 
+</div>
 
 <div class="cards">
 
 <div class="card">
-<h3>🚀 Server</h3>
-<p class="status">Online</p>
-</div>
-
-<div class="card">
-<h3>⚡ Framework</h3>
+<h3>⚡ Runtime</h3>
 <p>Express + TypeScript</p>
 </div>
 
 <div class="card">
-<h3>☁ Hosting</h3>
-<p>Vercel</p>
+<h3>☁ Cloud</h3>
+<p>Vercel Edge</p>
+</div>
+
+<div class="card">
+<h3>🚀 Performance</h3>
+<p>Optimized</p>
+</div>
+
+<div class="card">
+<h3>🛰 Status</h3>
+<p style="color:#00ff99;">ONLINE</p>
 </div>
 
 </div>
 
-
 </div>
 
+<div class="footer">
+<div>Abstract Framework</div>
+<div>v1.0</div>
+</div>
+
+</div>
 
 <script>
-function test(){
- alert("Nova Hub is working 🚀")
+function launch(){
+alert("System Online 🚀");
 }
 </script>
 
-
 </body>
 </html>
-  `)
-})
+`);
+});
